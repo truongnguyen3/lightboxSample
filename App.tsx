@@ -1,117 +1,207 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
+  Dimensions,
+  Image,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
+  TouchableOpacity,
   View,
+  SafeAreaView,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import Lightbox from 'react-native-lightbox-v2';
+import Carousel from 'react-native-looped-carousel';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const BASE_PADDING = 10;
+const renderCarousel = () => (
+  <Carousel style={{width: WINDOW_WIDTH, height: WINDOW_WIDTH}}>
+    <Image
+      style={{flex: 1}}
+      resizeMode="contain"
+      source={{
+        uri: 'http://cdn.lolwot.com/wp-content/uploads/2015/07/20-pictures-of-animals-in-hats-to-brighten-up-your-day-1.jpg',
+      }}
+    />
+    <View style={{backgroundColor: '#6C7A89', flex: 1}} />
+    <View style={{backgroundColor: '#019875', flex: 1}} />
+    <View style={{backgroundColor: '#E67E22', flex: 1}} />
+  </Carousel>
+);
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+const renderItem = open => (
+  <View style={styles.customItemBox}>
+    <TouchableOpacity onPress={open} style={styles.customItemButton}>
+      <Text style={styles.customItemText}>I'm a custom element</Text>
+    </TouchableOpacity>
+  </View>
+);
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+const App = () => (
+  <SafeAreaView>
+    <ScrollView style={styles.container}>
+      <View style={styles.text}>
+        <Text>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.{' '}
+        </Text>
+      </View>
+      <Lightbox underlayColor="white" longPressCallback={() => alert('cess')}>
+        <Image
+          style={styles.contain}
+          resizeMode="contain"
+          source={{
+            uri: 'https://www.yayomg.com/wp-content/uploads/2014/04/yayomg-pig-wearing-party-hat.jpg',
+          }}
+        />
+      </Lightbox>
+      <View style={styles.text}>
+        <Text>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.{' '}
+        </Text>
+      </View>
+      <Lightbox
+        springConfig={{tension: 15, friction: 7}}
+        swipeToDismiss={false}
+        renderContent={renderCarousel}>
+        <Image
+          style={styles.carousel}
+          resizeMode="contain"
+          source={{
+            uri: 'http://cdn.lolwot.com/wp-content/uploads/2015/07/20-pictures-of-animals-in-hats-to-brighten-up-your-day-1.jpg',
+          }}
+        />
+      </Lightbox>
+      <View style={styles.text}>
+        <Text>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.{' '}
+        </Text>
+      </View>
+      <Lightbox
+        renderHeader={close => (
+          <TouchableOpacity onPress={close}>
+            <Text style={styles.closeButton}>Close</Text>
+          </TouchableOpacity>
+        )}>
+        <View style={styles.customHeaderBox}>
+          <Text>I have a custom header</Text>
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+      </Lightbox>
+      <View style={styles.text}>
+        <Text>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.{' '}
+        </Text>
+      </View>
+      <View style={styles.row}>
+        <Lightbox style={styles.col}>
+          <View style={[styles.square, styles.squareFirst]}>
+            <Text style={styles.squareText}>I'm a square</Text>
+          </View>
+        </Lightbox>
+        <Lightbox style={styles.col}>
+          <View style={[styles.square, styles.squareSecond]}>
+            <Text style={styles.squareText}>I'm a square</Text>
+          </View>
+        </Lightbox>
+      </View>
+      <View style={styles.text}>
+        <Text>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.{' '}
+        </Text>
+      </View>
+      <Lightbox renderItem={renderItem}>
+        <Image
+          style={styles.contain}
+          resizeMode="contain"
+          source={{
+            uri: 'https://www.yayomg.com/wp-content/uploads/2014/04/yayomg-pig-wearing-party-hat.jpg',
+          }}
+        />
+      </Lightbox>
+      <View style={styles.text}>
+        <Text>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.{' '}
+        </Text>
+      </View>
+    </ScrollView>
+  </SafeAreaView>
+);
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    paddingHorizontal: BASE_PADDING,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  closeButton: {
+    color: 'white',
+    borderWidth: 1,
+    borderColor: 'white',
+    padding: 8,
+    borderRadius: 3,
+    textAlign: 'center',
+    margin: 10,
+    alignSelf: 'flex-end',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  customHeaderBox: {
+    height: 150,
+    backgroundColor: '#6C7A89',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  highlight: {
-    fontWeight: '700',
+  row: {
+    flexDirection: 'row',
+    marginLeft: -BASE_PADDING,
+    marginRight: -BASE_PADDING,
+  },
+  col: {
+    flex: 1,
+  },
+  square: {
+    width: WINDOW_WIDTH / 2,
+    height: WINDOW_WIDTH / 2,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  squareFirst: {
+    backgroundColor: '#C0392B',
+  },
+  squareSecond: {
+    backgroundColor: '#019875',
+  },
+  squareText: {
+    textAlign: 'center',
+    color: 'white',
+  },
+  carousel: {
+    height: WINDOW_WIDTH - BASE_PADDING * 2,
+    width: WINDOW_WIDTH - BASE_PADDING * 2,
+    backgroundColor: 'white',
+  },
+  contain: {
+    flex: 1,
+    height: 150,
+  },
+  text: {
+    marginVertical: BASE_PADDING * 2,
+  },
+  customItemBox: {
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  customItemButton: {
+    backgroundColor: '#000000',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  customItemText: {
+    padding: 20,
+    color: '#FFFFFF',
   },
 });
 

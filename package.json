@@ -4,14 +4,16 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator='iPhone SE (3rd generation)'",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
   },
   "dependencies": {
     "react": "18.2.0",
-    "react-native": "0.72.7"
+    "react-native": "0.72.7",
+    "react-native-lightbox-v2": "^0.9.0",
+    "react-native-looped-carousel": "^0.1.13"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
